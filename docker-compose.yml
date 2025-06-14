@@ -1,0 +1,21 @@
+services:
+  mongo-primary:
+    image: mongo:6
+    container_name: mongo-primary
+    ports:
+      - "27017:27017"
+  mongo-secondary:
+    image: mongo:6
+    container_name: mongo-secondary
+    ports:
+      - "27018:27017"
+  app:
+    build: .
+    container_name: node-app
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo-primary
+      - mongo-secondary
